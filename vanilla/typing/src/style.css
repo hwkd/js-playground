@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+#phrase {
+  font-family: "Space Mono", serif;
+  /*font-family: "Roboto Mono", serif;*/
+  /*font-family: "Azeret Mono", serif;*/
+}
+
+span.correct {
+  @apply text-gray-700;
+}
+
+span.wrong {
+  @apply text-red-600 bg-red-200 rounded;
+}
+
+span.current {
+  @apply border-b-4 border-amber-500;
+}
