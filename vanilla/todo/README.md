@@ -1,3 +1,7 @@
+# Screenshot
+
+![Todolist](./screenshot.png)
+
 # Retrospective
 While the goal was to have a clear separation of concerns between the HTML, JS, and CSS code — where the HTML defines the document
 structure, JS defines the behaviour of the elements/app, and CSS defines the styling of the elements — it became inevitable to have
@@ -35,3 +39,13 @@ your app without using it for the entire website.
 - Tight coupling of HTML, JS, and CSS in interactive, dynamic client-side apps lead to solutions like React/Solid/Vue/Svelte/Angular/etc.
 - Easier to reason about, maintain, and scale interactive apps with modern libraries/frameworks.
 
+# Installing and running
+
+This is a typical app bootstrapped with Vite:
+
+```sh
+git clone github.com/hwkd/js-playground
+cd vanilla/todo
+npm install
+npm run dev
+```
