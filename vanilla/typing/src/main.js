@@ -16,22 +16,50 @@ const phrase = phrases[Math.floor(Math.random() * phrases.length)];
 
 const containerNode = document.getElementById("container");
 const phraseNode = document.getElementById("phrase");
+const wpmNode = document.getElementById("wpm");
+const accuracyNode = document.getElementById("accuracy");
 
 let idx = 0;
+let startTime = null;
+let totalTyped = 0;
+let correctTyped = 0;
 
-phraseNode.innerHTML = phrase
-  .split("")
-  .map((ch) => `<span>${ch}</span>`)
-  .join("");
-phraseNode.children[0].classList.add("current");
+function init() {
+  phraseNode.innerHTML = phrase
+    .split("")
+    .map((ch) => `<span>${ch}</span>`)
+    .join("");
 
-document.addEventListener("keydown", function (ev) {
+  phraseNode.children[0].classList.add("current");
+}
+
+function updateMetrics() {
+  const timeTaken = (Date.now() - startTime) / 1000;
+  const wpm = ((totalTyped / 5 / timeTaken) * 60).toFixed(2);
+  const accuracy = ((correctTyped / totalTyped) * 100).toFixed(2);
+  wpmNode.textContent = wpm;
+  accuracyNode.textContent = accuracy;
+}
+
+function handleKeyDown(ev) {
+  if (!startTime) {
+    startTime = Date.now();
+  }
+
+  if (idx >= phrase.length) {
+    return;
+  }
+
   const spanNodes = phraseNode.children;
 
   if (ev.key === "Backspace" && idx > 0) {
+    totalTyped--;
     spanNodes[idx].classList.remove("current");
     idx--;
     spanNodes[idx].classList.add("current");
+    if (phraseNode.children[idx].classList.contains("correct")) {
+      correctTyped--;
+    }
     phraseNode.children[idx].classList.remove("correct", "wrong");
   }
 
@@ -41,10 +69,20 @@ document.addEventListener("keydown", function (ev) {
 
   if (ev.key === phrase[idx]) {
     spanNodes[idx].classList.add("correct");
+    correctTyped++;
   } else {
     spanNodes[idx].classList.add("wrong");
   }
   spanNodes[idx].classList.remove("current");
+  totalTyped++;
   idx++;
-  spanNodes[idx].classList.add("current");
-});
+  if (idx < phrase.length) {
+    spanNodes[idx].classList.add("current");
+  }
+  if (startTime) {
+    updateMetrics();
+  }
+}
+
+document.addEventListener("keydown", handleKeyDown);
+init();
